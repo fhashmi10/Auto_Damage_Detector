@@ -16,6 +16,7 @@ class ModelConfig:
     model_url: str
     base_model_path: Path
     built_model_path: Path
+    transform_model_path: Path
     trained_model_path: Path
 
 

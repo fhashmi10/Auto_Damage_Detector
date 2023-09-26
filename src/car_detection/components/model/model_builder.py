@@ -30,16 +30,15 @@ class ModelBuilder():
         try:
             input_shape = (self.params.image_pixel_size,
                            self.params.image_pixel_size, 3)
-            
-            # Model architecture 
+
+            # Model architecture
             model = tf.keras.Sequential([
                 tf.keras.layers.InputLayer(input_shape=input_shape),
                 hub.KerasLayer(self.config.base_model_path,
                                trainable=self.params.trainable),
                 tf.keras.layers.Dropout(rate=self.params.dropout_rate),
                 tf.keras.layers.Dense(self.params.number_classes,
-                                      kernel_regularizer=
-                                      tf.keras.regularizers.l2(self.params.l2_pentaly_rate))
+                                      kernel_regularizer=tf.keras.regularizers.l2(self.params.l2_pentaly_rate))
             ])
 
             # Build model
@@ -54,6 +53,35 @@ class ModelBuilder():
                           loss=loss_crossentropy,
                           metrics=['accuracy'])
             return model
+        except Exception as ex:
+            raise ex
+        
+    def create_transformer_model(self) -> tf.keras.Sequential:
+        """Method to create data transformer object"""
+        try:
+            # Rescale
+            transformer_model = tf.keras.Sequential(
+                [tf.keras.layers.Rescaling(1. / 255)])
+
+            # Data augmentation
+            if self.params.augmentation:
+                transformer_model.add(
+                    tf.keras.layers.RandomRotation(40))
+                transformer_model.add(
+                    tf.keras.layers.RandomTranslation(0, 0.2))
+                transformer_model.add(
+                    tf.keras.layers.RandomTranslation(0.2, 0))
+                transformer_model.add(
+                    tf.keras.layers.RandomZoom(0.2, 0.2))
+                transformer_model.add(
+                    tf.keras.layers.RandomFlip(mode="horizontal"))
+            
+            # Build model
+            input_shape = (self.params.image_pixel_size,
+                        self.params.image_pixel_size, 3)
+            transformer_model.build((None,)+input_shape)
+
+            return transformer_model
         except Exception as ex:
             raise ex
 
@@ -91,12 +119,22 @@ class ModelBuilder():
                 model_path=self.config.built_model_path)
             if not skip_process:
                 # Update base model
-                logger.info("Updating base model.")
-                model = self.update_base_model()
+                updated_model = self.update_base_model()
                 # Save updated base model
-                tf.saved_model.save(model, self.config.built_model_path)
-                logger.info("Model built and saved successfully to: %s",
+                tf.saved_model.save(updated_model, self.config.built_model_path)
+                logger.info("Updated model built and saved successfully to: %s",
                             self.config.built_model_path)
+                
+            # Check if transformer model already exists
+            skip_process = self.skip_processing(
+                model_path=self.config.transform_model_path)
+            if not skip_process:
+                # Create transformation model
+                transformer_model = self.create_transformer_model()
+                # Save transformation model
+                tf.saved_model.save(transformer_model, self.config.transform_model_path)
+                logger.info("Transformer model built and saved successfully to: %s",
+                            self.config.transform_model_path)
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)
             raise ex

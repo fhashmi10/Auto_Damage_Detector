@@ -38,6 +38,7 @@ class ConfigurationManager:
             model_config = ModelConfig(model_url=config.model_url,
                                        base_model_path=config.base_model_path,
                                        built_model_path=config.built_model_path,
+                                       transform_model_path=config.transform_model_path,
                                        trained_model_path=config.trained_model_path)
             return model_config
         except AttributeError as ex:
