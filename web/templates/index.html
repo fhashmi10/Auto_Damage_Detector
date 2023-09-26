@@ -1,0 +1,58 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Machine Learning {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<main>
+    <div class="section-header bg-primary text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <h3 class="text-center">Math Score Prediction</h3>
+            </div>
+        </div>
+    </div>
+    <br /><br /><br />
+    <!-- Form -->
+    <form action="{{ url_for('predict')}}" method="POST" enctype="multipart/form-data">
+        <!-- Section -->
+        <div class="section section-md pt-4">
+            <div class="container">
+                <div class="row mb-4 mb-lg-5 justify-content-center">
+                    <div class="col-lg-4 col-sm-6 text-center">
+                        <!-- Form -->
+                        <form action="/index.html" method="POST" enctype="multipart/form-data">
+                            <label for="formFile" class="form-label">Upload image to predict loss amount<br />(jpeg,
+                                jpg, png)</label>
+                            <input class="form-control" type="file" name="file" id="formFile" /><br />
+                            <button class="btn btn-lg btn-primary" type="submit">Predict Loss</button>
+                        </form>
+                        <!-- End of Form -->
+                    </div>
+                </div>
+                <div class="row mb-4 mb-lg-5 justify-content-center">
+                    <div class="col-lg-4 col-sm-6 text-center">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <label class="form-label" style="color:red">{{ message }}</label>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Section -->
+    </form>
+    <!-- End of Form -->
+</main>
+
+{% include 'includes/footer.html' %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

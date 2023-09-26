@@ -1,0 +1,10 @@
+trainable: True
+augmentation: True
+image_pixel_size: 512 # as per model
+image_channels: 3 # color image
+batch_size: 16
+number_classes: 2
+number_epochs: 1
+learning_rate: 0.01
+dropout_rate: 0.2
+l2_pentaly_rate: 0.0001
