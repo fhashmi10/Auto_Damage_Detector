@@ -1,11 +1,12 @@
 data:
-  source_url: https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-  download_path: artifacts/car_detection/data/original_data/cifar_10
+  source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+  data_path: data/cifar10/train
+  download_path: artifacts/car_detection/data/cifar_10
 
 
 model:
-  model_url: https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_xl/feature_vector/2
-  base_model_path: artifacts/car_detection/models/base_model
+  model_url: https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_s/feature_vector/2
+  base_model_path: artifacts/common/models/base_model
   built_model_path: artifacts/car_detection/models/built_model
   transform_model_path: artifacts/car_detection/models/transform_model
   trained_model_path: artifacts/car_detection/models/trained_model

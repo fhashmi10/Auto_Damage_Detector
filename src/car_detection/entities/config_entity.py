@@ -7,6 +7,7 @@ from pathlib import Path
 class DataConfig:
     """Class to map data config"""
     source_url: str
+    data_path: Path
     download_path: Path
 
 
@@ -25,8 +26,7 @@ class ParamConfig:
     """Class to map param config"""
     trainable: bool
     augmentation: bool
-    image_pixel_size: int
-    image_channels: int
+    image_size: str
     batch_size: int
     number_classes: int
     number_epochs: int

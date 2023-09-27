@@ -22,6 +22,7 @@ class ConfigurationManager:
         try:
             config = self.config.data
             data_config = DataConfig(source_url=config.source_url,
+                                     data_path=config.data_path,
                                      download_path=config.download_path)
             return data_config
         except AttributeError as ex:
@@ -54,8 +55,7 @@ class ConfigurationManager:
             params = self.params
             param_config = ParamConfig(trainable=params.trainable,
                                        augmentation=params.augmentation,
-                                       image_pixel_size=params.image_pixel_size,
-                                       image_channels=params.image_channels,
+                                       image_size=params.image_size,
                                        batch_size=params.batch_size,
                                        number_classes=params.number_classes,
                                        number_epochs=params.number_epochs,
