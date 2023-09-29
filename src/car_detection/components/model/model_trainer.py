@@ -17,7 +17,8 @@ class ModelTrainer():
     def get_built_model(self):
         """Method to get the built model"""
         try:
-            return tf.keras.models.load_model(self.model_config.built_model_path)
+            model = tf.keras.models.load_model(self.model_config.built_model_path)
+            return model
         except AttributeError as ex:
             logger.exception("Error loading built model.")
             raise ex
@@ -65,7 +66,7 @@ class ModelTrainer():
         except Exception as ex:
             raise ex
 
-    def train_model(self):
+    def train_model(self, callback_list: list):
         """Method to invoke model training"""
         try:
 
@@ -83,7 +84,8 @@ class ModelTrainer():
                       epochs=self.params.number_epochs,
                       steps_per_epoch=steps_per_epoch,
                       validation_data=val_ds,
-                      validation_steps=validation_steps)
+                      validation_steps=validation_steps,
+                      callbacks=callback_list)
             
             # Save trained model
             model.save(self.model_config.trained_model_path)

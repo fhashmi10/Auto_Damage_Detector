@@ -47,6 +47,9 @@ class ModelBuilder():
                 learning_rate=self.params.learning_rate, momentum=0.9)
             loss_crossentropy = tf.keras.losses.CategoricalCrossentropy(
                 from_logits=True, label_smoothing=0.1)
+            #Label smoothing is a regularization technique for overfitting and overconfidence
+            # An overconfident model predicted probabilities is higher than accuracy
+            # e.g, may predict 0.9 for inputs where the accuracy is only 0.6
             model.compile(optimizer=sgd_optimizer,
                           loss=loss_crossentropy,
                           metrics=['accuracy'])

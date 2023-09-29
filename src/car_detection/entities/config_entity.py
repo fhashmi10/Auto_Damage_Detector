@@ -8,7 +8,6 @@ class DataConfig:
     """Class to map data config"""
     source_url: str
     data_path: Path
-    download_path: Path
 
 
 @dataclass(frozen=True)
@@ -39,7 +38,7 @@ class ParamConfig:
 class CallbackConfig:
     """Class to map callback config"""
     callback_path: Path
-    tensorboard_log_path: Path
+    #tensorboard_log_path: Path
     model_checkpoint_path: Path
 
 

@@ -1,7 +1,6 @@
 data:
   source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-  data_path: data/cifar10/train
-  download_path: artifacts/car_detection/data/cifar_10
+  data_path: data/cifar10/
 
 
 model:
@@ -14,8 +13,8 @@ model:
 
 callback: 
   callback_path: artifacts/callbacks
-  tensorboard_log_path: artifacts/callbacks/tensorboard_logs
-  model_checkpoint_path: artifacts/callbacks/checkpoints/model.h5
+  #tensorboard_log_path: artifacts/callbacks/tensorboard_logs
+  model_checkpoint_path: artifacts/callbacks/checkpoints/
 
 
 eval: 

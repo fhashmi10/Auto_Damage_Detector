@@ -22,8 +22,7 @@ class ConfigurationManager:
         try:
             config = self.config.data
             data_config = DataConfig(source_url=config.source_url,
-                                     data_path=config.data_path,
-                                     download_path=config.download_path)
+                                     data_path=config.data_path)
             return data_config
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)
@@ -75,7 +74,7 @@ class ConfigurationManager:
         try:
             config = self.config.callback
             callback_config = CallbackConfig(callback_path=config.callback_path,
-                                             tensorboard_log_path=config.tensorboard_log_path,
+                                             #tensorboard_log_path=config.tensorboard_log_path,
                                              model_checkpoint_path=config.model_checkpoint_path)
             return callback_config
         except AttributeError as ex:

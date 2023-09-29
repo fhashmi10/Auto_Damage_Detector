@@ -16,13 +16,13 @@ class DataIngestion():
         """Method to ingest data"""
         try:
             if self.config.source_url is not None:
-                create_directories([self.config.download_path])
-                data_save_abs_path = os.path.join("./", self.config.download_path)
+                create_directories([self.config.data_path])
+                data_save_abs_path = os.path.join("./", self.config.data_path)
                 tf.keras.utils.get_file(
                     origin=self.config.source_url,
                     extract=True,
                     cache_dir=data_save_abs_path)
-                logger.info("Data downloaded at: %s", self.config.download_path)
+                logger.info("Data downloaded at: %s", self.config.data_path)
             else:
                 logger.info("Data will be read from: %s", self.config.data_path)
         except AttributeError as ex:
