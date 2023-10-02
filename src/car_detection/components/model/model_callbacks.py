@@ -32,8 +32,9 @@ class ModelCallbacks():
         try:
             return tf.keras.callbacks.ModelCheckpoint(
                 filepath=self.config.model_checkpoint_path,
+                monitor="accuracy", # accuracy since val loss/accuracy is only calculated after epoch
                 save_best_only=True,
-                save_freq=2#number of batches
+                save_freq=50#number of batches - by default save after each epoch
             )
         except AttributeError as ex:
             raise ex

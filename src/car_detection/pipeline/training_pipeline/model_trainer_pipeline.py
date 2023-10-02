@@ -10,9 +10,11 @@ def model_trainer_pipeline():
         stage_name = "Car Detection Model Training"
         logger.info("%s started", stage_name)
         config = ConfigurationManager()
-        callback_list = ModelCallbacks(config=config.get_callback_config())
+        model_callback = ModelCallbacks(config=config.get_callback_config())
+        callback_list = model_callback.get_callbacks()
         model_trainer = ModelTrainer(data_config=config.get_data_config(),
                                      model_config=config.get_model_config(),
+                                     callback_config=config.get_callback_config(),
                                      params=config.get_param_config())
         model_trainer.train_model(callback_list=callback_list)
         logger.info("%s completed\nx==========x", stage_name)

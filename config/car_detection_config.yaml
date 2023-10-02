@@ -1,6 +1,6 @@
 data:
   source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-  data_path: data/cifar10/
+  data_path: data/cardamage/train #data/cifar10/
 
 
 model:

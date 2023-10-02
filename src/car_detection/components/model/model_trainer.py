@@ -1,7 +1,9 @@
 """Module to train models"""
+import os
+from pathlib import Path
 import tensorflow as tf
 from src.car_detection.configuration.configuration_manager import \
-    DataConfig, ModelConfig, ParamConfig
+    DataConfig, ModelConfig, CallbackConfig, ParamConfig
 from src.utils.helper import build_dataset
 from src import logger
 
@@ -9,15 +11,30 @@ from src import logger
 class ModelTrainer():
     """Class to train models"""
 
-    def __init__(self, data_config: DataConfig, model_config: ModelConfig, params: ParamConfig):
+    def __init__(self, data_config: DataConfig, model_config: ModelConfig, callback_config: CallbackConfig, params: ParamConfig):
         self.data_config = data_config
         self.model_config = model_config
+        self.callback_config = callback_config
         self.params = params
 
-    def get_built_model(self):
-        """Method to get the built model"""
+    @staticmethod
+    def model_checkpoint_exists(checkpoint_path: Path) -> bool:
+        """Method to check if model checkpoint exists"""
         try:
-            model = tf.keras.models.load_model(self.model_config.built_model_path)
+            # Delete existing model
+            if os.path.exists(checkpoint_path):
+                logger.info(
+                    "Model checkpoint already exists at: %s", checkpoint_path)
+                return True
+            return False
+        except Exception as ex:
+            raise ex
+
+    @staticmethod
+    def get_model(model_path: Path):
+        """Method to get the model"""
+        try:
+            model = tf.keras.models.load_model(model_path)
             return model
         except AttributeError as ex:
             logger.exception("Error loading built model.")
@@ -74,7 +91,11 @@ class ModelTrainer():
             train_ds, train_size, val_ds, val_size = self.get_dataset()
 
             # Get built model to train
-            model = self.get_built_model()
+            checkpoint_path = os.path.join(self.callback_config.callback_path, "checkpoints")
+            if self.model_checkpoint_exists(checkpoint_path):
+                model = self.get_model(checkpoint_path)
+            else:
+                model = self.get_model(self.model_config.built_model_path)
 
             # Train the model
             steps_per_epoch = train_size // self.params.batch_size
@@ -86,7 +107,7 @@ class ModelTrainer():
                       validation_data=val_ds,
                       validation_steps=validation_steps,
                       callbacks=callback_list)
-            
+
             # Save trained model
             model.save(self.model_config.trained_model_path)
         except AttributeError as ex:
