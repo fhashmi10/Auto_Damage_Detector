@@ -1,6 +1,6 @@
 data:
   source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-  data_path: data/cardamage/train #data/cifar10/
+  data_path: data/cardamage/train #data/cifar10/ - trained on this first
 
 
 model:
@@ -20,8 +20,3 @@ callback:
 eval: 
   evaluation_score_json_path: artifacts/car_detection/models/evaluation_score/scores.json
   mlflow_uri: https://dagshub.com/fhashmi10/ML_Generic.mlflow
-
-
-test:
-  test_data_path: # path for web testing once model is ready
-  test_sample_size: 1 # number of samples to pick from each class
