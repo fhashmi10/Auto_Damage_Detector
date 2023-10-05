@@ -42,16 +42,10 @@ class CallbackConfig:
     model_checkpoint_path: Path
 
 
-@dataclass(frozen=True)
-class TrainConfig:
-    """Class to map training config"""
-    base_model_path: Path
-    training_data_path: Path
-
 @dataclass
 class EvaluationConfig:
     """Class to map evaluation config"""
-    trained_model_path: Path
+    test_data_path: Path
     evaluation_score_json_path: Path
-    track_params: dict
     mlflow_uri: str
+    track_params: dict

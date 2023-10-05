@@ -11,7 +11,8 @@ from src import logger
 class ModelTrainer():
     """Class to train models"""
 
-    def __init__(self, data_config: DataConfig, model_config: ModelConfig, callback_config: CallbackConfig, params: ParamConfig):
+    def __init__(self, data_config: DataConfig, model_config: ModelConfig,
+                 callback_config: CallbackConfig, params: ParamConfig):
         self.data_config = data_config
         self.model_config = model_config
         self.callback_config = callback_config
@@ -86,12 +87,12 @@ class ModelTrainer():
     def train_model(self, callback_list: list):
         """Method to invoke model training"""
         try:
-
             # Get train and validate data
             train_ds, train_size, val_ds, val_size = self.get_dataset()
 
             # Get built model to train
-            checkpoint_path = os.path.join(self.callback_config.callback_path, "checkpoints")
+            checkpoint_path = os.path.join(
+                self.callback_config.callback_path, "checkpoints")
             if self.model_checkpoint_exists(checkpoint_path):
                 model = self.get_model(checkpoint_path)
             else:

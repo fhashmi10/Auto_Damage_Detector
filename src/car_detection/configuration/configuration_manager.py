@@ -74,23 +74,9 @@ class ConfigurationManager:
         try:
             config = self.config.callback
             callback_config = CallbackConfig(callback_path=config.callback_path,
-                                             #tensorboard_log_path=config.tensorboard_log_path,
+                                             # tensorboard_log_path=config.tensorboard_log_path,
                                              model_checkpoint_path=config.model_checkpoint_path)
             return callback_config
-        except AttributeError as ex:
-            logger.exception("Error finding attribute: %s", ex)
-            raise ex
-        except Exception as ex:
-            logger.exception("Exception occured: %s", ex)
-            raise ex
-
-    def get_train_config(self) -> TrainConfig:
-        """Method to manage training configuration"""
-        try:
-            config = self.config.model
-            train_config = TrainConfig(base_model_path=config.base_model_path,
-                                       training_data_path=self.config.data.data_original_root_path)
-            return train_config
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)
             raise ex
@@ -101,11 +87,16 @@ class ConfigurationManager:
     def get_evaluation_config(self) -> EvaluationConfig:
         """Method to manage evaluation configuration"""
         try:
+            config = self.config.eval
+            track_params = {}
+            for param in config.track_params.split(','):
+                track_params[param] = self.params.get(param, None)
+
             eval_config = EvaluationConfig(
-                trained_model_path=self.config.model.trained_model_path,
-                evaluation_score_json_path=self.config.model.evaluation_score_json_path,
-                track_params=self.params,
-                mlflow_uri=self.config.model.mlflow_uri)
+                test_data_path=config.test_data_path,
+                evaluation_score_json_path=config.evaluation_score_json_path,
+                mlflow_uri=config.mlflow_uri,
+                track_params=track_params)
             return eval_config
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)

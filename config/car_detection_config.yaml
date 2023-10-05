@@ -12,11 +12,13 @@ model:
 
 
 callback: 
-  callback_path: artifacts/callbacks
+  callback_path: artifacts/car_detection/callbacks
   #tensorboard_log_path: artifacts/callbacks/tensorboard_logs
-  model_checkpoint_path: artifacts/callbacks/checkpoints/
+  model_checkpoint_path: artifacts/car_detection/callbacks/checkpoints/
 
 
 eval: 
+  test_data_path: data/cardamage/test
   evaluation_score_json_path: artifacts/car_detection/models/evaluation_score/scores.json
   mlflow_uri: https://dagshub.com/fhashmi10/ML_Generic.mlflow
+  track_params: learning_rate

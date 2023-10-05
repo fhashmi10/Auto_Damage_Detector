@@ -3,6 +3,7 @@ from src import logger
 from .data_ingestion_pipeline import data_ingestion_pipeline
 from .model_builder_pipeline import model_builder_pipeline
 from .model_trainer_pipeline import model_trainer_pipeline
+from .model_evaluator_pipeline import model_evaluator_pipeline
 
 
 class CarDetectionTrainingPipeline:
@@ -32,12 +33,20 @@ class CarDetectionTrainingPipeline:
         except Exception as ex:
             raise ex
 
+    def car_detection_model_evaluator(self):
+        """Method to perform model evaluation"""
+        try:
+            model_evaluator_pipeline()
+        except Exception as ex:
+            raise ex
+
     def run_pipeline(self):
         """Method to perform car detection training"""
         try:
-            self.car_detection_data_ingestion()
-            self.car_detection_model_builder()
-            self.car_detection_model_trainer()
+            # self.car_detection_data_ingestion()
+            # self.car_detection_model_builder()
+            # self.car_detection_model_trainer()
+            self.car_detection_model_evaluator()
         except Exception as ex:
             raise ex
 
