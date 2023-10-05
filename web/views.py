@@ -52,7 +52,7 @@ def predict():
         img = request.files['file']
         predict_pipeline = CarDetectionPredictionPipeline(img)
         results = predict_pipeline.predict()
-        flash(results)
+        #flash(results)
         return render_template('index.html', results=results)
     except requests.Timeout:
         return render_template('page-error.html', error="Timeout occured!")

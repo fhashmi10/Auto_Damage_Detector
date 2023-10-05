@@ -41,14 +41,19 @@ class ModelPredictor:
             prediction = "Image is not identified as a car."
             predict_proba = tf.nn.softmax(
                 car_detection_model(input_image)).numpy()
-            top_five_predictions = tf.argsort(
-                predict_proba, axis=-1, direction="DESCENDING")[0][:5].numpy()
+            top_prediction = tf.argsort(
+                predict_proba, axis=-1, direction="DESCENDING")[0][:1].numpy()[0]
+            
+            # top_five_predictions = tf.argsort(
+            #     predict_proba, axis=-1, direction="DESCENDING")[0][:5].numpy()
 
-            for item in top_five_predictions:
-                #class_index = item + 1
-                class_index = item
-                if "automobile" in classes[class_index]:
-                    prediction = "Image is identified as a car."
+            # for item in top_five_predictions:
+            #     #class_index = item + 1
+            #     class_index = item
+            #     if "automobile" in classes[class_index]:
+            #         prediction = "Image is identified as a car."
+            if "automobile" in classes[top_prediction]:
+                prediction = "Image is identified as a car."
             logger.info("Prediction completed.")
 
             return prediction
