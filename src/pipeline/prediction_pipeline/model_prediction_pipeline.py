@@ -1,6 +1,6 @@
 """Module to create model prediction pipeline"""
-from src.configuration.configuration_manager import ConfigurationManager
-from src.components.model.model_predictor import ModelPredictor
+from src.car_detection.configuration.configuration_manager import ConfigurationManager
+from src.car_detection.components.model.model_predictor import ModelPredictor
 from src import logger
 
 
@@ -14,7 +14,7 @@ class ModelPredictionPipeline:
         """Method to perform prediction"""
         try:
             config = ConfigurationManager()
-            model_predictor = ModelPredictor(train_config=config.get_train_config())
+            model_predictor = ModelPredictor(config=config.get_model_config())
             prediction = model_predictor.predict(self.filename)
             return [{"image": prediction}]
         except Exception as ex:

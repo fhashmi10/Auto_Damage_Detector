@@ -18,7 +18,7 @@ callback:
 
 
 eval: 
-  test_data_path: data/cardamage/test
+  test_data_path: data/cifar10_test
   evaluation_score_json_path: artifacts/car_detection/models/evaluation_score/scores.json
   mlflow_uri: https://dagshub.com/fhashmi10/ML_Generic.mlflow
   track_params: learning_rate

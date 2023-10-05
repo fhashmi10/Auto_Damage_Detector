@@ -6,7 +6,8 @@ from flask_cors import cross_origin
 from jinja2 import TemplateNotFound
 
 from web import app
-from src.car_detection.pipeline.prediction_pipeline.car_detection_prediction_pipeline import CarDetectionPredictionPipeline
+from src.car_detection.pipeline.prediction_pipeline.car_detection_prediction_pipeline \
+    import CarDetectionPredictionPipeline
 
 
 @app.route('/', defaults={'path': 'index.html'})

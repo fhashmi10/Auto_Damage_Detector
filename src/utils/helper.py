@@ -20,8 +20,8 @@ def build_dataset(data_dir, val_split, subset, image_size, batch_size):
         data_size = image_data.cardinality().numpy()
         # Batch data as now we got data size
         image_data = image_data.unbatch().batch(batch_size)
-        # Repeat to avoid error when all images are processed once and epochs still running
-        image_data = image_data.repeat()
+        # Repeat to create infinite dataset - steps must be defined then
+        # image_data = image_data.repeat()
 
         return image_data, data_size
     except OSError as ex:

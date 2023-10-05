@@ -2,7 +2,7 @@
 from src.car_detection.configuration import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.common import read_yaml_configbox
 from src.car_detection.entities.config_entity import DataConfig, ModelConfig, \
-    ParamConfig, CallbackConfig, TrainConfig, EvaluationConfig
+    ParamConfig, CallbackConfig, EvaluationConfig
 from src import logger
 
 

@@ -1,17 +1,16 @@
 
 """Module to perform prediction"""
-import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
-from src.entities.car_detection_config_entity import CarDetectionConfig
+from src.car_detection.entities.config_entity import ModelConfig
 from src.utils.common import preprocess_image, load_file_as_list
 from src import logger
 
 
-class CdModelPredictor:
+class ModelPredictor:
     """Class to perform prediction"""
 
-    def __init__(self, config=CarDetectionConfig):
+    def __init__(self, config=ModelConfig):
         self.config = config
 
     def get_class_labels(self) -> list:
@@ -32,12 +31,12 @@ class CdModelPredictor:
                 image_dict=image_dict, image_size=384)
 
             # Load the model
-            car_detection_model = hub.load(self.config.base_model_path)
+            car_detection_model = hub.load(self.config.trained_model_path)
             logger.info("loaded model successfully.")
 
             # Get class labels
-            classes = self.get_class_labels()
-
+            #classes = self.get_class_labels()
+            classes = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
             # Predict
             prediction = "Image is not identified as a car."
             predict_proba = tf.nn.softmax(
@@ -46,8 +45,9 @@ class CdModelPredictor:
                 predict_proba, axis=-1, direction="DESCENDING")[0][:5].numpy()
 
             for item in top_five_predictions:
-                class_index = item + 1
-                if "car" in classes[class_index]:
+                #class_index = item + 1
+                class_index = item
+                if "automobile" in classes[class_index]:
                     prediction = "Image is identified as a car."
             logger.info("Prediction completed.")
 
