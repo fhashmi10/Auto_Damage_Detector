@@ -12,6 +12,8 @@ class MainPredictionPipeline:
     def run_pipeline(self):
         """Method to perform prediction"""
         try:
-            return car_detection_prediction_pipeline(self.filename)
+            car_result = car_detection_prediction_pipeline(self.filename)
+            damage_result = ""
+            return car_result, damage_result
         except Exception as ex:
             raise ex

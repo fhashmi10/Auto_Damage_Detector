@@ -43,6 +43,7 @@ class ModelPredictor:
                 car_detection_model(input_image)).numpy()
             top_prediction = tf.argsort(
                 predict_proba, axis=-1, direction="DESCENDING")[0][:1].numpy()[0]
+            logger.info("Prediction completed.")
 
             # Return Prediction
             prediction = []
@@ -50,10 +51,8 @@ class ModelPredictor:
                 prediction.append(True)
             else:
                 prediction.append(False)
-            return_str = "Image is identified as: " + classes[top_prediction]
-            prediction.append(return_str)
+            prediction.append(classes[top_prediction])
 
-            logger.info("Prediction completed.")
             return prediction
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)

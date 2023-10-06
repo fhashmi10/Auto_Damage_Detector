@@ -2,7 +2,7 @@
 import os
 import requests
 from flask import request, render_template
-#from flask import flash, redirect
+# from flask import flash, redirect
 from flask_cors import cross_origin
 from jinja2 import TemplateNotFound
 
@@ -51,10 +51,19 @@ def predict():
             return render_template('index.html')
         img = request.files['file']
         predict_pipeline = MainPredictionPipeline(img)
-        result = predict_pipeline.run_pipeline()
-        return render_template('index.html', result=result[1])
-        #flash(result[0])
-        #return redirect(request.url)
+        car_result, *damage_result = predict_pipeline.run_pipeline()
+        if car_result[0] is False:
+            car_result_text = "The image is identified as: " + \
+                car_result[1] + ". <br/> Please upload car damage image."
+            damage_result_text = damage_result[0]
+        else:
+            car_result_text = car_result[1]
+            damage_result_text = damage_result[0]
+        return render_template('index.html',
+                               car_result_text=car_result_text,
+                               damage_result_text=damage_result_text)
+        # flash(result[0])
+        # return redirect(request.url)
     except requests.Timeout:
         return render_template('page-error.html', error="Timeout occured!")
     except TemplateNotFound:
