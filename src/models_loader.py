@@ -1,6 +1,7 @@
 """Module to load trained model"""
 import tensorflow as tf
-from src.car_detection.configuration.configuration_manager import ConfigurationManager
+from src.car_detection.configuration.car_detection_configuration_manager \
+    import CarDetectionConfigurationManager
 from src import logger
 
 class ModelsLoader:
@@ -12,7 +13,7 @@ class ModelsLoader:
     def load_car_detection_model(self):
         """Method to load trained model"""
         try:
-            config = ConfigurationManager()
+            config = CarDetectionConfigurationManager()
             model_config=config.get_model_config()
             model =  tf.keras.models.load_model(model_config.trained_model_path)
             logger.info("loaded model successfully.")

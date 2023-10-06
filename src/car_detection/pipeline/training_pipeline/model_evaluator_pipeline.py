@@ -1,5 +1,6 @@
 """Module to create model evaluator pipeline"""
-from src.car_detection.configuration.configuration_manager import ConfigurationManager
+from src.car_detection.configuration.car_detection_configuration_manager \
+    import CarDetectionConfigurationManager
 from src.car_detection.components.model.model_evaluator import ModelEvaluator
 from src import logger
 
@@ -8,7 +9,7 @@ def model_evaluator_pipeline():
     try:
         stage_name = "Car Detection Model Evaluation"
         logger.info("%s started", stage_name)
-        config = ConfigurationManager()
+        config = CarDetectionConfigurationManager()
         model_evaluator = ModelEvaluator(model_config=config.get_model_config(),
                                      params=config.get_param_config(),
                                      eval_config=config.get_evaluation_config())

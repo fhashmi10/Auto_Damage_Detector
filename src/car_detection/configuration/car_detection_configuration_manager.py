@@ -6,7 +6,7 @@ from src.car_detection.entities.config_entity import DataConfig, ModelConfig, \
 from src import logger
 
 
-class ConfigurationManager:
+class CarDetectionConfigurationManager:
     """Class to manage configuration"""
 
     def __init__(self):

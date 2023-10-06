@@ -1,5 +1,6 @@
 """Module to create model trainer pipeline"""
-from src.car_detection.configuration.configuration_manager import ConfigurationManager
+from src.car_detection.configuration.car_detection_configuration_manager \
+    import CarDetectionConfigurationManager
 from src.car_detection.components.model.model_callbacks import ModelCallbacks
 from src.car_detection.components.model.model_trainer import ModelTrainer
 from src import logger
@@ -9,7 +10,7 @@ def model_trainer_pipeline():
     try:
         stage_name = "Car Detection Model Training"
         logger.info("%s started", stage_name)
-        config = ConfigurationManager()
+        config = CarDetectionConfigurationManager()
         model_callback = ModelCallbacks(config=config.get_callback_config())
         callback_list = model_callback.get_callbacks()
         model_trainer = ModelTrainer(data_config=config.get_data_config(),

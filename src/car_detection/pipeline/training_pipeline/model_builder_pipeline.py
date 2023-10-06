@@ -1,5 +1,6 @@
 """Module to create model builder pipeline"""
-from src.car_detection.configuration.configuration_manager import ConfigurationManager
+from src.car_detection.configuration.car_detection_configuration_manager \
+    import CarDetectionConfigurationManager
 from src.car_detection.components.model.model_builder import ModelBuilder
 from src import logger
 
@@ -8,7 +9,7 @@ def model_builder_pipeline():
     try:
         stage_name = "Car Detection Model Build"
         logger.info("%s started", stage_name)
-        config = ConfigurationManager()
+        config = CarDetectionConfigurationManager()
         model_builder = ModelBuilder(config=config.get_model_config(),
                                      params=config.get_param_config())
         model_builder.build_model()
