@@ -52,12 +52,11 @@ def predict():
         img = request.files['file']
         predict_pipeline = MainPredictionPipeline(img)
         car_result, *damage_result = predict_pipeline.run_pipeline()
+        car_result_text = "The image is identified as: " + car_result[1]
         if car_result[0] is False:
-            car_result_text = "The image is identified as: " + \
-                car_result[1] + ". <br/> Please upload car damage image."
+            car_result_text += ". Please upload car damage image."
             damage_result_text = damage_result[0]
         else:
-            car_result_text = car_result[1]
             damage_result_text = damage_result[0]
         return render_template('index.html',
                                car_result_text=car_result_text,
