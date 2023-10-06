@@ -1,6 +1,7 @@
 
 """Module to perform prediction"""
 import tensorflow as tf
+from flask import current_app
 from src.car_detection.entities.config_entity import DataConfig, ModelConfig
 from src.utils.common import preprocess_image, load_file_as_list
 from src import logger
@@ -31,8 +32,9 @@ class ModelPredictor:
                 image_dict=image_dict, image_size=384)
 
             # Load the model
-            car_detection_model = tf.keras.models.load_model(
-                self.model_config.trained_model_path)
+            # car_detection_model = tf.keras.models.load_model(
+            #     self.model_config.trained_model_path)
+            car_detection_model = current_app.car_detection_model
             logger.info("loaded model successfully.")
 
             # Get class labels
