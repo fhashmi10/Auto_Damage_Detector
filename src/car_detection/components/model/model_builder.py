@@ -36,7 +36,8 @@ class ModelBuilder():
                                trainable=self.params.trainable),
                 tf.keras.layers.Dropout(rate=self.params.dropout_rate),
                 tf.keras.layers.Dense(self.params.number_classes,
-                                      kernel_regularizer=tf.keras.regularizers.l2(self.params.l2_pentaly_rate))
+                                      kernel_regularizer=\
+                                        tf.keras.regularizers.l2(self.params.l2_pentaly_rate))
             ])
 
             # Build model

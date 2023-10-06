@@ -1,6 +1,7 @@
 data:
   source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
   data_path: data/cifar10/
+  class_labels_path: data/cifar10_class_labels.txt
 
 
 model:

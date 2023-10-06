@@ -8,6 +8,7 @@ class DataConfig:
     """Class to map data config"""
     source_url: str
     data_path: Path
+    class_labels_path: Path
 
 
 @dataclass(frozen=True)

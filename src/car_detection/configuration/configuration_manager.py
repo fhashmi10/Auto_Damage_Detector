@@ -22,7 +22,8 @@ class ConfigurationManager:
         try:
             config = self.config.data
             data_config = DataConfig(source_url=config.source_url,
-                                     data_path=config.data_path)
+                                     data_path=config.data_path,
+                                     class_labels_path=config.class_labels_path)
             return data_config
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)

@@ -1,13 +1,13 @@
 """App module for flask app exposing endpoints"""
 import os
 import requests
-from flask import flash, request, render_template
+from flask import request, render_template
+#from flask import flash, redirect
 from flask_cors import cross_origin
 from jinja2 import TemplateNotFound
 
 from web import app
-from src.car_detection.pipeline.prediction_pipeline.car_detection_prediction_pipeline \
-    import CarDetectionPredictionPipeline
+from src.pipeline.main_prediction_pipeline import MainPredictionPipeline
 
 
 @app.route('/', defaults={'path': 'index.html'})
@@ -50,10 +50,11 @@ def predict():
         if request.method == 'GET':
             return render_template('index.html')
         img = request.files['file']
-        predict_pipeline = CarDetectionPredictionPipeline(img)
-        results = predict_pipeline.predict()
-        #flash(results)
-        return render_template('index.html', results=results)
+        predict_pipeline = MainPredictionPipeline(img)
+        result = predict_pipeline.run_pipeline()
+        return render_template('index.html', result=result[1])
+        #flash(result[0])
+        #return redirect(request.url)
     except requests.Timeout:
         return render_template('page-error.html', error="Timeout occured!")
     except TemplateNotFound:

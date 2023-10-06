@@ -1,8 +1,7 @@
 
 """Module to perform prediction"""
 import tensorflow as tf
-import tensorflow_hub as hub
-from src.car_detection.entities.config_entity import ModelConfig
+from src.car_detection.entities.config_entity import DataConfig, ModelConfig
 from src.utils.common import preprocess_image, load_file_as_list
 from src import logger
 
@@ -10,13 +9,14 @@ from src import logger
 class ModelPredictor:
     """Class to perform prediction"""
 
-    def __init__(self, config=ModelConfig):
-        self.config = config
+    def __init__(self, data_config: DataConfig, model_config: ModelConfig):
+        self.data_config = data_config
+        self.model_config = model_config
 
     def get_class_labels(self) -> list:
         """Return the class labels"""
         try:
-            classes = load_file_as_list(self.config.labels_file_path)
+            classes = load_file_as_list(self.data_config.class_labels_path)
             return classes
         except AttributeError as ex:
             raise ex
@@ -31,31 +31,29 @@ class ModelPredictor:
                 image_dict=image_dict, image_size=384)
 
             # Load the model
-            car_detection_model = hub.load(self.config.trained_model_path)
+            car_detection_model = tf.keras.models.load_model(
+                self.model_config.trained_model_path)
             logger.info("loaded model successfully.")
 
             # Get class labels
-            #classes = self.get_class_labels()
-            classes = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
+            classes = self.get_class_labels()
+
             # Predict
-            prediction = "Image is not identified as a car."
             predict_proba = tf.nn.softmax(
                 car_detection_model(input_image)).numpy()
             top_prediction = tf.argsort(
                 predict_proba, axis=-1, direction="DESCENDING")[0][:1].numpy()[0]
-            
-            # top_five_predictions = tf.argsort(
-            #     predict_proba, axis=-1, direction="DESCENDING")[0][:5].numpy()
 
-            # for item in top_five_predictions:
-            #     #class_index = item + 1
-            #     class_index = item
-            #     if "automobile" in classes[class_index]:
-            #         prediction = "Image is identified as a car."
-            if "automobile" in classes[top_prediction]:
-                prediction = "Image is identified as a car."
+            # Return Prediction
+            prediction = []
+            if classes[top_prediction] == "automobile":
+                prediction.append(True)
+            else:
+                prediction.append(False)
+            return_str = "Image is identified as: " + classes[top_prediction]
+            prediction.append(return_str)
+
             logger.info("Prediction completed.")
-
             return prediction
         except AttributeError as ex:
             logger.exception("Error finding attribute: %s", ex)
