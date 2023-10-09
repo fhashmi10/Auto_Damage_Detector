@@ -1,0 +1,25 @@
+data:
+  source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+  data_path: data/cardamage/train
+  class_labels_path: data/cardamage_class_labels.txt
+
+
+model:
+  model_url: https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_s/feature_vector/2
+  base_model_path: artifacts/common/models/base_model
+  built_model_path: artifacts/damage_detection/models/built_model
+  transform_model_path: artifacts/damage_detection/models/transform_model
+  trained_model_path: artifacts/damage_detection/models/trained_model
+
+
+callback: 
+  callback_path: artifacts/damage_detection/callbacks
+  #tensorboard_log_path: artifacts/callbacks/tensorboard_logs
+  model_checkpoint_path: artifacts/damage_detection/callbacks/checkpoints/
+
+
+eval: 
+  test_data_path: data/cardamage/test
+  evaluation_score_json_path: artifacts/damage_detection/models/evaluation_score/scores.json
+  mlflow_uri: https://dagshub.com/fhashmi10/ML_Generic.mlflow
+  track_params: learning_rate

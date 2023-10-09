@@ -2,7 +2,7 @@
 """Module to perform prediction"""
 import tensorflow as tf
 from flask import current_app
-from src.car_detection.entities.config_entity import DataConfig, ModelConfig, ParamConfig
+from src.damage_detection.entities.config_entity import DataConfig, ModelConfig, ParamConfig
 from src.utils.common import preprocess_image, load_file_as_list
 from src import logger
 
@@ -33,9 +33,9 @@ class ModelPredictor:
                 image_dict=image_dict, image_size=int(self.params.image_size.split(',')[0]))
 
             # Load the model
-            # car_detection_model = tf.keras.models.load_model(
+            # damage_detection_model = tf.keras.models.load_model(
             #     self.model_config.trained_model_path)
-            car_detection_model = current_app.car_detection_model
+            damage_detection_model = current_app.damage_detection_model
             logger.info("loaded model successfully.")
 
             # Get class labels
@@ -43,17 +43,13 @@ class ModelPredictor:
 
             # Predict
             predict_proba = tf.nn.softmax(
-                car_detection_model(input_image)).numpy()
+                damage_detection_model(input_image)).numpy()
             top_prediction = tf.argsort(
                 predict_proba, axis=-1, direction="DESCENDING")[0][:1].numpy()[0]
             logger.info("Prediction completed.")
 
             # Return Prediction
             prediction = []
-            if classes[top_prediction] == "automobile":
-                prediction.append(True)
-            else:
-                prediction.append(False)
             prediction.append(classes[top_prediction])
 
             return prediction

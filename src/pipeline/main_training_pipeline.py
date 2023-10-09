@@ -1,6 +1,8 @@
 """Module to create Main training pipeline"""
 from src.car_detection.pipeline.training_pipeline.car_detection_training_pipeline \
     import CarDetectionTrainingPipeline
+from src.damage_detection.pipeline.training_pipeline.damage_detection_training_pipeline \
+    import DamageDetectionTrainingPipeline
 from src import logger
 
 
@@ -15,6 +17,8 @@ class MainTrainingPipeline:
         try:
             car_detection = CarDetectionTrainingPipeline()
             car_detection.run_pipeline()
+            damage_detection = DamageDetectionTrainingPipeline()
+            damage_detection.run_pipeline()
         except Exception as ex:
             raise ex
 

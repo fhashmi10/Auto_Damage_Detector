@@ -1,0 +1,9 @@
+trainable: True
+augmentation: True
+image_size: 384,384,3 # as per model
+batch_size: 16
+number_classes: 9
+number_epochs: 2
+learning_rate: 0.01
+dropout_rate: 0.2
+l2_pentaly_rate: 0.0001

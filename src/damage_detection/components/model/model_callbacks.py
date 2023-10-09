@@ -3,7 +3,7 @@
 #import time
 import tensorflow as tf
 
-from src.car_detection.entities.config_entity import CallbackConfig
+from src.damage_detection.entities.config_entity import CallbackConfig
 from src import logger
 
 

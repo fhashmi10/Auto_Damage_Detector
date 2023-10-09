@@ -3,11 +3,13 @@ import tensorflow as tf
 from src import logger
 
 
-def build_dataset(data_dir, val_split, subset, image_size, batch_size):
+def build_dataset(data_dir, val_split, subset,
+                  image_size, batch_size, class_names=None, repeat=True):
     """Method to build dataset"""
     try:
         image_data = tf.keras.preprocessing.image_dataset_from_directory(
             data_dir,
+            class_names=class_names,
             validation_split=val_split,
             subset=subset,
             label_mode="categorical",
@@ -21,7 +23,9 @@ def build_dataset(data_dir, val_split, subset, image_size, batch_size):
         # Batch data as now we got data size
         image_data = image_data.unbatch().batch(batch_size)
         # Repeat to create infinite dataset - steps must be defined then
-        # image_data = image_data.repeat()
+        # Repeat ensures generator can generate at least `steps_per_epoch * epochs` batches
+        if repeat is True:
+            image_data = image_data.repeat()
 
         return image_data, data_size
     except OSError as ex:
@@ -29,3 +33,4 @@ def build_dataset(data_dir, val_split, subset, image_size, batch_size):
         raise ex
     except Exception as ex:
         raise ex
+

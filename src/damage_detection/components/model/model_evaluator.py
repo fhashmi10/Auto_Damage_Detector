@@ -2,18 +2,19 @@
 from urllib.parse import urlparse
 import mlflow
 import tensorflow as tf
-from src.car_detection.entities.config_entity import \
-    ModelConfig, ParamConfig, EvaluationConfig
+from src.damage_detection.entities.config_entity import \
+    DataConfig, ModelConfig, ParamConfig, EvaluationConfig
 from src.utils.helper import build_dataset
-from src.utils.common import save_json
+from src.utils.common import save_json, load_file_as_list
 from src import logger
 
 
 class ModelEvaluator():
     """Class to evaluate models"""
 
-    def __init__(self, model_config: ModelConfig,
+    def __init__(self, data_config: DataConfig, model_config: ModelConfig,
                  params: ParamConfig, eval_config: EvaluationConfig):
+        self.data_config = data_config
         self.model_config = model_config
         self.params = params
         self.eval_config = eval_config
@@ -36,16 +37,18 @@ class ModelEvaluator():
             if len(image_size) == 3:
                 image_size = image_size[:2]
 
+            # Get classes
+            # classes = load_file_as_list(self.data_config.class_labels_path)
+
             # Build test dataset
-            test_ds, _ = build_dataset(data_dir=self.eval_config.test_data_path,
-                                                 val_split=None,
-                                                 subset=None,
-                                                 image_size=image_size,
-                                                 batch_size=self.params.batch_size,
-                                                 repeat=False)
+            test_ds, test_size = build_dataset(data_dir=self.eval_config.test_data_path,
+                                       val_split=None,
+                                       subset=None,
+                                       image_size=image_size,
+                                       batch_size=self.params.batch_size)
             logger.info("Data loaded successfully.")
 
-            return test_ds
+            return test_ds, test_size
         except AttributeError as ex:
             logger.exception("Error getting dataset.")
             raise ex
@@ -90,10 +93,11 @@ class ModelEvaluator():
             model = self.get_trained_model()
 
             # Get test data
-            test_ds = self.get_dataset()
+            test_ds, test_size = self.get_dataset()
 
             # Evaluate
-            model_score = model.evaluate(test_ds)
+            steps = test_size // self.params.batch_size
+            model_score = model.evaluate(x=test_ds, steps=steps)
             result = {"loss": model_score[0], "accuracy": model_score[1]}
             save_json(
                 file_path=self.eval_config.evaluation_score_json_path, data=result)

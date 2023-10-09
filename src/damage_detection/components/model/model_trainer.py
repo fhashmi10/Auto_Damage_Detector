@@ -2,7 +2,7 @@
 import os
 from pathlib import Path
 import tensorflow as tf
-from src.car_detection.configuration.car_detection_configuration_manager import \
+from src.damage_detection.configuration.damage_detection_configuration_manager import \
     DataConfig, ModelConfig, CallbackConfig, ParamConfig
 from src.utils.helper import build_dataset
 from src import logger
