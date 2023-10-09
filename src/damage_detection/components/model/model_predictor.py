@@ -49,8 +49,13 @@ class ModelPredictor:
             logger.info("Prediction completed.")
 
             # Return Prediction
+            prediction = classes[top_prediction]
             prediction = []
-            prediction.append(classes[top_prediction])
+            if classes[top_prediction] == "undamaged":
+                prediction.append(False)
+            else:
+                prediction.append(True)
+            prediction.append(classes[top_prediction].replace("_"," "))
 
             return prediction
         except AttributeError as ex:

@@ -1,6 +1,6 @@
 data:
   source_url: #https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-  data_path: data/cifar10/
+  data_path: data/car/cifar10/
   class_labels_path: data/cifar10_class_labels.txt
 
 
@@ -19,7 +19,7 @@ callback:
 
 
 eval: 
-  test_data_path: data/cifar10_test
+  test_data_path: data/car/cifar10_test
   evaluation_score_json_path: artifacts/car_detection/models/evaluation_score/scores.json
   mlflow_uri: https://dagshub.com/fhashmi10/ML_Generic.mlflow
   track_params: learning_rate
