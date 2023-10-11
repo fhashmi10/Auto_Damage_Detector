@@ -3,6 +3,8 @@ from src.car_detection.pipeline.training_pipeline.car_detection_training_pipelin
     import CarDetectionTrainingPipeline
 from src.damage_detection.pipeline.training_pipeline.damage_detection_training_pipeline \
     import DamageDetectionTrainingPipeline
+from src.damage_severity.pipeline.training_pipeline.damage_severity_training_pipeline \
+    import DamageSeverityTrainingPipeline
 from src import logger
 
 
@@ -19,6 +21,8 @@ class MainTrainingPipeline:
             car_detection.run_pipeline()
             damage_detection = DamageDetectionTrainingPipeline()
             damage_detection.run_pipeline()
+            damage_severity = DamageSeverityTrainingPipeline()
+            damage_severity.run_pipeline()
         except Exception as ex:
             raise ex
 
