@@ -1,14 +1,14 @@
 """Module to hold all common util methods"""
 import os
 import shutil
-from pathlib import Path
-from PIL import Image
 import json
 import base64
 import pickle
+from pathlib import Path
 import yaml
 import numpy as np
 import tensorflow as tf
+from PIL import Image
 from box import ConfigBox, exceptions
 
 from src import logger
