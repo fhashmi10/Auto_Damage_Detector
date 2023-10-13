@@ -13,13 +13,18 @@ class MainPredictionPipeline:
     def run_pipeline(self):
         """Method to perform prediction"""
         try:
+            car_result = [False,""]
+            damage_result = [False,""]
+            severity_result = ""
             # Car Detection
             car_result = predict_cd(self.filename)
-            # Damage Detection
-            damage_result = predict_dd(self.filename)
-            # Severity Detection
-            severity_result = predict_ds(self.filename)
+            if car_result[0] is True:
+                # Damage Detection
+                damage_result = predict_dd(self.filename)
+                if damage_result[0] is True:
+                    # Severity Detection
+                    severity_result = predict_ds(self.filename)
 
-            return car_result, damage_result, severity_result
+            return car_result[1], damage_result[1], severity_result
         except Exception as ex:
             raise ex
