@@ -51,11 +51,12 @@ def predict():
             return render_template('index.html')
         img = request.files['file']
         predict_pipeline = MainPredictionPipeline(img)
-        car_result, damage_result, severity_result = predict_pipeline.run_pipeline()
+        car_result, damage_result, severity_result, repair_price = predict_pipeline.run_pipeline()
         return render_template('index.html',
                                car_result=car_result,
                                damage_result=damage_result,
-                               severity_result=severity_result)
+                               severity_result=severity_result,
+                               repair_price=repair_price)
         # flash(result[0])
         # return redirect(request.url)
     except requests.Timeout:
