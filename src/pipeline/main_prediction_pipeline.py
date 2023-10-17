@@ -22,7 +22,7 @@ class MainPredictionPipeline:
             repair_cost_df = repair_cost_df.loc[\
                 repair_cost_df['damage_sev'] == severity_result]
             repair_price = repair_cost_df['repair_cost'].values[0]
-            repair_price = "The average estimated repair cost is: $" + repair_price
+            repair_price = "The average estimated repair cost is: $" + str(repair_price)
             return repair_price
         except Exception as ex:
             raise ex
@@ -33,6 +33,7 @@ class MainPredictionPipeline:
             car_result = [False, ""]
             damage_result = [False, ""]
             severity_result = ""
+            repair_price = ""
             # Car Detection
             car_result = predict_cd(self.filename)
             if car_result[0] is True:
