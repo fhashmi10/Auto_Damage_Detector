@@ -1,5 +1,6 @@
 """App module for flask app exposing endpoints"""
 import os
+from pathlib import Path
 import requests
 from flask import request, render_template
 # from flask import flash, redirect
@@ -8,6 +9,7 @@ from jinja2 import TemplateNotFound
 
 from web import app
 from src.pipeline.main_prediction_pipeline import MainPredictionPipeline
+from src.utils.common import remove_directories
 
 
 @app.route('/', defaults={'path': 'index.html'})
@@ -18,6 +20,7 @@ def index(path):
     try:
         if not path.endswith('.html'):
             path += '.html'
+        remove_directories([Path("web/static/assets/uploads/uploaded.jpeg")])
         return render_template(path)
     except requests.Timeout:
         return render_template('page-error.html', error="Timeout occured!")
@@ -50,6 +53,8 @@ def predict():
         if request.method == 'GET':
             return render_template('index.html')
         img = request.files['file']
+        img.save(Path("web/static/assets/uploads/uploaded.jpeg"))
+
         predict_pipeline = MainPredictionPipeline(img)
         car_result, damage_result, severity_result, repair_price = predict_pipeline.run_pipeline()
         return render_template('index.html',
